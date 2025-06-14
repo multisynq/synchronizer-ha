@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2025-06-14
+
+### 🎉 Stable Release - Working & Polished
+- **Confirmed Working**: Add-on is now fully functional and stable
+- **Documentation Cleanup**: Completely simplified README.md with clear, concise instructions
+- **User-Friendly Configuration**: Improved error messages that guide users to Home Assistant UI
+- **Hardcoded Constants**: DePIN endpoint is now a constant (`wss://api.multisynq.io/depin`) instead of configuration option
+- **Better Error Handling**: Clear messages when API key or wallet address are missing, with helpful guidance
+- **Streamlined Experience**: Removed unnecessary technical details and focused on what users need to know
+
+### Added
+- Clear error messages directing users to configure API key and wallet address in Home Assistant
+- Links to multisynq.io for getting API keys
+- Simplified installation and configuration instructions
+
+### Changed
+- README.md completely rewritten for clarity and simplicity
+- DePIN endpoint is now hardcoded as a constant
+- Error messages are more user-friendly and actionable
+- Configuration instructions focus on the essentials
+
+### Removed
+- DePIN endpoint configuration option (now constant)
+- Technical implementation details from README
+- Unnecessary troubleshooting and manual testing sections
+
 ## [1.1.0] - 2024-12-14
 
 ### 🚀 External Docker Image Approach
