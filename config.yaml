@@ -10,6 +10,7 @@ url: "https://github.com/multisynq/synchronizer-ha"
 documentation: "https://github.com/multisynq/synchronizer-cli"
 maintainer: "Miguel Matos <miguel.matos@multisynq.io>"
 host_network: false
+image: "ghcr.io/multisynq/synchronizer-ha/multisynq_synchronizer"
 options:
   synq_key: ""
   wallet_address: ""
