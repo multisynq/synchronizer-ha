@@ -37,5 +37,6 @@ jobs:
         docker run --rm --privileged \
             -v /home/runner/.docker:/root/.docker \
             -v /run/docker.sock:/run/docker.sock:rw \
-            -v $(pwd)/${{ matrix.addon }}:/data homeassistant/amd64-builder --all -t /data \
+            -v $(pwd)/${{ matrix.addon }}:/data \
+            homeassistant/amd64-builder --all -t /data \
             --no-cache --docker-hub ghcr.io/${{ github.repository_owner }}
