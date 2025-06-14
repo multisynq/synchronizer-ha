@@ -1,0 +1,40 @@
+{
+  "configuration": {
+    "synq_key": {
+      "name": "Synq Key",
+      "description": "Your Synq key from the Multisynq platform (required)"
+    },
+    "wallet_address": {
+      "name": "Wallet Address", 
+      "description": "Your wallet address for receiving rewards (required)"
+    },
+    "sync_name": {
+      "name": "Sync Name",
+      "description": "A friendly name for your synchronizer instance"
+    },
+    "enable_web_dashboard": {
+      "name": "Enable Web Dashboard",
+      "description": "Enable the web dashboard for monitoring (recommended)"
+    },
+    "dashboard_port": {
+      "name": "Dashboard Port",
+      "description": "Port for the web dashboard interface (only if web dashboard is enabled)"
+    },
+    "metrics_port": {
+      "name": "Metrics Port", 
+      "description": "Port for the metrics API server (only if web dashboard is enabled)"
+    },
+    "dashboard_password": {
+      "name": "Dashboard Password",
+      "description": "Optional password to protect dashboard access"
+    },
+    "auto_start": {
+      "name": "Auto Start",
+      "description": "Automatically start the synchronizer when the add-on starts"
+    },
+    "log_level": {
+      "name": "Log Level",
+      "description": "Logging verbosity level"
+    }
+  }
+}
