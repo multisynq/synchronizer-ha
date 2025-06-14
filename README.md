@@ -37,6 +37,34 @@ Run a Multisynq Synchronizer through your Home Assistant instance to participate
 **Advanced Settings** (optional section):
 - `Log Level`: Logging verbosity for debugging (default: info)
 
+## ⚠️ Important - Segmentation Fault Issues
+
+Some users may experience segmentation faults with synchronizer-cli. If the add-on crashes:
+
+### Recommended Safe Configuration:
+```yaml
+synq_key: "your-key-here"
+wallet_address: "your-wallet-here"
+auto_start: false          # Disable to avoid crashes
+web_dashboard:
+  enable: true             # Use for manual control
+  port: 3000
+advanced:
+  log_level: "debug"       # Enable detailed logging
+```
+
+### Debugging Commands:
+```bash
+# Access container
+docker exec -it addon_multisynq_synchronizer bash
+
+# Run debug analysis
+./debug.sh
+
+# Test manually
+node /usr/lib/node_modules/synchronizer-cli/index.js --version
+```
+
 ## Getting Started
 
 1. Get your Synq key from [multisynq.io](https://multisynq.io)

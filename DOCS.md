@@ -49,6 +49,108 @@ If you haven't already, add this repository to your Home Assistant Supervisor:
 2. Click **Start**
 3. Check the **Log** tab for startup messages
 
+## ⚠️ Known Issues & Troubleshooting
+
+### Segmentation Fault Issues
+
+Some users may experience segmentation faults when the synchronizer-cli starts. This is a known compatibility issue with certain system configurations.
+
+**Symptoms:**
+- Add-on starts but synchronizer process crashes immediately
+- Logs show "Segmentation fault" or exit code 139
+- Container restarts repeatedly
+
+**Solutions:**
+
+1. **Disable Auto Start (Recommended)**
+   ```yaml
+   auto_start: false
+   web_dashboard:
+     enable: true
+   ```
+   This allows you to use the web dashboard and manually start the synchronizer when needed.
+
+2. **Use Debug Mode**
+   Run the debug script to analyze the issue:
+   ```bash
+   docker exec -it addon_multisynq_synchronizer /debug.sh
+   ```
+
+3. **Check Enhanced Logs**
+   The add-on now includes comprehensive startup logging to help identify where crashes occur:
+   ```bash
+   # View detailed startup logs
+   docker logs addon_multisynq_synchronizer
+   ```
+
+4. **Manual Testing**
+   Test synchronizer-cli functionality manually:
+   ```bash
+   # Access the addon container
+   docker exec -it addon_multisynq_synchronizer bash
+   
+   # Test direct Node.js execution (safer method)
+   node /usr/lib/node_modules/synchronizer-cli/index.js --version
+   
+   # Test synchronize command (may cause segfault)
+   synchronize --version
+   ```
+
+### Debug Mode
+
+The add-on includes comprehensive debugging tools to help identify segmentation fault causes:
+
+```bash
+# Access the addon container
+docker exec -it addon_multisynq_synchronizer bash
+
+# Run the debug script for comprehensive analysis
+./debug.sh
+
+# Check detailed logs with full startup diagnostics
+tail -f /proc/1/fd/1
+```
+
+### Troubleshooting Steps
+
+1. **Check System Requirements**
+   - Ensure sufficient memory (minimum 512MB available)
+   - Verify architecture compatibility (amd64, arm64, armv7)
+   - Check kernel version compatibility
+
+2. **Monitor Resource Usage**
+   ```bash
+   # Check memory usage
+   free -h
+   
+   # Check system load
+   uptime
+   
+   # Monitor processes
+   ps aux | grep -E "(node|synchroniz)"
+   ```
+
+3. **Safe Mode Configuration**
+   If experiencing crashes, use this configuration:
+   ```yaml
+   synq_key: "your-key-here"
+   wallet_address: "your-wallet-here"
+   sync_name: "Safe Mode Sync"
+   auto_start: false
+   web_dashboard:
+     enable: true
+     port: 3000
+     metrics_port: 3001
+   advanced:
+     log_level: "debug"
+   ```
+
+4. **Alternative Execution Methods**
+   The add-on automatically tries multiple execution methods:
+   - Direct Node.js execution (preferred, safer)
+   - Synchronize command (may cause segfaults)
+   - Web dashboard only mode (fallback)
+
 ## Configuration Reference
 
 ### Required Configuration

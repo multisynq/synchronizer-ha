@@ -51,9 +51,15 @@ profile multisynq_synchronizer flags=(attach_disconnected,mediate_deleted) {
     /usr/bin/npm ix,
     /usr/bin/npx ix,
 
-    # synchronizer-cli
-    /usr/lib/node_modules/synchronizer-cli/** r,
+    # synchronizer-cli and global npm modules
+    /usr/lib/node_modules/** r,
+    /usr/lib/node_modules/synchronizer-cli/** rix,
     /usr/bin/synchronize ix,
+    /usr/local/bin/synchronize ix,
+
+    # Temporary files for npm and node
+    /tmp/** rwk,
+    /var/tmp/** rwk,
 
     # System files
     /etc/passwd r,
