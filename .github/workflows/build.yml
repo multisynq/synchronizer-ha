@@ -39,7 +39,7 @@ jobs:
         with:
           args: |
             --target . \
-            --generic ${{ matrix.arch }}
+            --${{ matrix.arch }}
 
   publish:
     name: Publish Add-on
