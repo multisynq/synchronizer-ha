@@ -18,7 +18,7 @@ Visit [multisynq.io](https://multisynq.io) to learn more about the platform, get
 After installing the add-on, you need to configure it with your Multisynq credentials:
 
 1. Go to the add-on configuration tab
-2. Fill in your **API Key** (get this from [https://startsynqing.com/](https://startsynqing.com/))
+2. Fill in your **Synq Key** (get this from [https://startsynqing.com/](https://startsynqing.com/))
 3. Fill in your **Wallet Address** (for receiving rewards)
 4. Optionally, set a custom **Sync Name** for your synchronizer
 5. Save the configuration and start the add-on
@@ -32,3 +32,9 @@ For issues and support: [Open a Ticket](https://github.com/multisynq/synchronize
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
+
+
+## Manual Testing
+```
+docker build -f Dockerfile.test -t multisynq-synchronizer:test-with-bashio .
+docker run --rm -e SYNQ_KEY="..." -e WALLET_ADDRESS="..." -e SYNC_NAME="..." multisynq-synchronizer:test-with-bashio
