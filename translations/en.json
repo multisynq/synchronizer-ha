@@ -9,32 +9,40 @@
       "description": "Your wallet address for receiving rewards (required)"
     },
     "sync_name": {
-      "name": "Sync Name",
+      "name": "Synchronizer Name",
       "description": "A friendly name for your synchronizer instance"
     },
-    "enable_web_dashboard": {
-      "name": "Enable Web Dashboard",
-      "description": "Enable the web dashboard for monitoring (recommended)"
+    "auto_start": {
+      "name": "Auto Start Synchronizer",
+      "description": "Automatically start the synchronizer when the add-on starts"
     },
-    "dashboard_port": {
+    "web_dashboard": {
+      "name": "Web Dashboard",
+      "description": "Configure the web dashboard for monitoring and control"
+    },
+    "web_dashboard.enable": {
+      "name": "Enable Dashboard",
+      "description": "Enable the web dashboard interface for monitoring"
+    },
+    "web_dashboard.port": {
       "name": "Dashboard Port",
-      "description": "Port for the web dashboard interface (only if web dashboard is enabled)"
+      "description": "Port for accessing the web dashboard interface"
     },
-    "metrics_port": {
-      "name": "Metrics Port", 
-      "description": "Port for the metrics API server (only if web dashboard is enabled)"
+    "web_dashboard.metrics_port": {
+      "name": "Metrics API Port", 
+      "description": "Port for the metrics API server"
     },
-    "dashboard_password": {
+    "web_dashboard.password": {
       "name": "Dashboard Password",
       "description": "Optional password to protect dashboard access"
     },
-    "auto_start": {
-      "name": "Auto Start",
-      "description": "Automatically start the synchronizer when the add-on starts"
+    "advanced": {
+      "name": "Advanced Settings",
+      "description": "Advanced configuration options for debugging and troubleshooting"
     },
-    "log_level": {
+    "advanced.log_level": {
       "name": "Log Level",
-      "description": "Logging verbosity level"
+      "description": "Logging verbosity level for debugging"
     }
   }
 }

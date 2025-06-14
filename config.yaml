@@ -1,51 +1,44 @@
-name: Multisynq Synchronizer
+name: "Multisynq Synchronizer"
+description: "Run a Multisynq Synchronizer through your Home Assistant instance"
 version: "1.0.0"
-description: "Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards."
-url: "https://github.com/multisynq/synchronizer-ha"
-maintainer: "Miguel Matos <miguel.matos@multisynq.io>"
+slug: "multisynq_synchronizer"
+init: false
 arch:
-  - armhf
-  - armv7
   - aarch64
   - amd64
+  - armhf
+  - armv7
   - i386
-init: false
-startup: application
-boot: auto
+url: "https://github.com/multisynq/synchronizer-ha"
+maintainer: "Miguel Matos <miguel.matos@multisynq.io>"
 options:
   synq_key: ""
   wallet_address: ""
   sync_name: "Home Assistant Sync"
-  enable_web_dashboard: true
-  dashboard_port: 3000
-  metrics_port: 3001
-  dashboard_password: ""
   auto_start: true
-  log_level: "info"
+  web_dashboard:
+    enable: true
+    port: 3000
+    metrics_port: 3001
+    password: ""
+  advanced:
+    log_level: "info"
 schema:
   synq_key: str
   wallet_address: str
   sync_name: str?
-  enable_web_dashboard: bool?
-  dashboard_port: int(1024,65535)?
-  metrics_port: int(1024,65535)?
-  dashboard_password: password?
   auto_start: bool?
-  log_level: list(debug|info|warning|error)?
+  web_dashboard:
+    enable: bool?
+    port: int(1024,65535)?
+    metrics_port: int(1024,65535)?
+    password: password?
+  advanced:
+    log_level: list(debug|info|warning|error)?
 ports:
   3000/tcp: 3000
   3001/tcp: 3001
 ports_description:
   3000/tcp: "Web Dashboard"
   3001/tcp: "Metrics API"
-host_network: false
-hassio_api: false
-hassio_role: default
-homeassistant_api: false
-privileged: false
-full_access: false
-stdin: false
-legacy: false
-environment:
-  NODE_ENV: production
-image: "ghcr.io/home-assistant/{arch}-addon-multisynq-synchronizer"
+# host_network: false

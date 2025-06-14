@@ -1,4 +1,4 @@
-#!/usr/bin/env bashio
+#!/usr/bin/with-contenv bashio
 
 # Exit on error
 set -e
@@ -10,12 +10,16 @@ bashio::log.info "Starting Multisynq Synchronizer Add-on..."
 SYNQ_KEY=$(bashio::config 'synq_key')
 WALLET_ADDRESS=$(bashio::config 'wallet_address')
 SYNC_NAME=$(bashio::config 'sync_name')
-ENABLE_WEB_DASHBOARD=$(bashio::config 'enable_web_dashboard')
-DASHBOARD_PORT=$(bashio::config 'dashboard_port')
-METRICS_PORT=$(bashio::config 'metrics_port')
-DASHBOARD_PASSWORD=$(bashio::config 'dashboard_password')
 AUTO_START=$(bashio::config 'auto_start')
-LOG_LEVEL=$(bashio::config 'log_level')
+
+# Web Dashboard configuration
+ENABLE_WEB_DASHBOARD=$(bashio::config 'web_dashboard.enable')
+DASHBOARD_PORT=$(bashio::config 'web_dashboard.port')
+METRICS_PORT=$(bashio::config 'web_dashboard.metrics_port')
+DASHBOARD_PASSWORD=$(bashio::config 'web_dashboard.password')
+
+# Advanced configuration
+LOG_LEVEL=$(bashio::config 'advanced.log_level')
 
 # Check required configuration
 if [[ -z "$SYNQ_KEY" ]]; then
