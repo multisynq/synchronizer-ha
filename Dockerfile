@@ -51,8 +51,14 @@ LABEL \
     io.hass.name="Multisynq Synchronizer" \
     io.hass.description="Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards" \
     io.hass.type="addon" \
-    io.hass.version="1.1.0" \
+    io.hass.version="1.1.1" \
     maintainer="Miguel Matos <miguel.matos@multisynq.io>"
+
+# Add OCI labels for GitHub Container Registry
+LABEL \
+    org.opencontainers.image.source="https://github.com/multisynq/synchronizer-ha" \
+    org.opencontainers.image.description="Home Assistant addon for Multisynq Synchronizer - participate in DePIN networks and earn rewards" \
+    org.opencontainers.image.licenses="MIT"
 
 # Use our wrapper script which will call the base image's synchronizer with proper arguments
 ENTRYPOINT ["/run.sh"]
