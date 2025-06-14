@@ -14,7 +14,7 @@ advanced: false
 stage: stable
 startup: application
 boot: auto
-image: "ghcr.io/multisynq/synchronizer-ha/multisynq_synchronizer"
+image: "ghcr.io/multisynq/synchronizer-ha"
 options:
   synq_key: ""
   wallet_address: ""
