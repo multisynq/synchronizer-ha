@@ -1,6 +1,5 @@
 name: Multisynq Synchronizer
 version: "1.0.0"
-slug: multisynq_synchronizer
 description: "Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards."
 url: "https://github.com/multisynq/synchronizer-ha"
 maintainer: "Miguel Matos <miguel.matos@multisynq.io>"
