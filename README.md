@@ -58,8 +58,20 @@ advanced:
 # Access container
 docker exec -it addon_multisynq_synchronizer bash
 
+# Run installation test
+/test_installation.sh
+
 # Run debug analysis
 ./debug.sh
+
+# Manual start script
+/start_manual.sh
+
+# Check synchronizer status
+synchronize status
+
+# View synchronizer logs
+synchronize logs
 
 # Test manually
 node /usr/lib/node_modules/synchronizer-cli/index.js --version

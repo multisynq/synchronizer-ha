@@ -1,6 +1,6 @@
 name: "Multisynq Synchronizer"
 description: "Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards"
-version: "1.0.2"
+version: "1.0.3"
 slug: "multisynq_synchronizer"
 init: false
 arch:
@@ -13,29 +13,13 @@ url: "https://github.com/multisynq/synchronizer-ha"
 documentation: "https://github.com/multisynq/synchronizer-cli"
 maintainer: "Miguel Matos <miguel.matos@multisynq.io>"
 options:
-  synq_key: "d055f423-1c3b-4240-a661-4463242b3e45"
-  wallet_address: "0x119F2a39029aA16A786bbE6750342768e779a15e"
+  synq_key: ""
+  wallet_address: ""
   sync_name: "Home Assistant Sync"
-  auto_start: false
-  web_dashboard:
-    enable: true
-    port: 3000
-    metrics_port: 3001
-    password: ""
-  advanced:
-    log_level: "info"
 schema:
   synq_key: str
   wallet_address: str
   sync_name: str?
-  auto_start: bool?
-  web_dashboard:
-    enable: bool?
-    port: int(1024,65535)?
-    metrics_port: int(1024,65535)?
-    password: password?
-  advanced:
-    log_level: list(debug|info|warning|error)?
 ports:
   3000/tcp: 3000
   3001/tcp: 3001
@@ -43,4 +27,3 @@ ports_description:
   3000/tcp: "Web Dashboard"
   3001/tcp: "Metrics API"
 startup: services
-# host_network: false
