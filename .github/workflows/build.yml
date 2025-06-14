@@ -63,4 +63,4 @@ jobs:
           args: |
             --target . \
             --all \
-            --docker-hub ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+            --registry ghcr.io/multisynq/synchronizer-ha
