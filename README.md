@@ -2,13 +2,16 @@
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
-![Supports armhf Architecture][armhf-shield]
-![Supports armv7 Architecture][armv7-shield]
-![Supports i386 Architecture][i386-shield]
 
-Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards.
+✅ **Status: External Docker Image Approach (v1.1.0)**
 
-## Quick Installation
+This add-on now uses the official `cdrakep/synqchronizer` Docker image directly, providing a more reliable and up-to-date synchronizer experience.
+
+## About
+
+Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards. This add-on leverages the official synchronizer Docker image maintained by the Multisynq team.
+
+## Installation
 
 [![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fmultisynq%2Fsynchronizer-ha)
 
@@ -25,75 +28,62 @@ Run a Multisynq Synchronizer through your Home Assistant instance to participate
 - `Wallet Address`: Your wallet address for rewards
 
 **Optional:**
-- `Synchronizer Name`: Friendly name for your synchronizer
-- `Auto Start Synchronizer`: Start automatically when add-on starts (default: true)
+- `Sync Name`: Friendly name for your synchronizer (default: "homeassistant-addon")
+- `DePIN Endpoint`: DePIN network endpoint (default: "wss://api.multisynq.io/depin")
 
-**Web Dashboard** (optional section):
-- `Enable Dashboard`: Enable web interface for monitoring (default: true)
-- `Dashboard Port`: Port for web interface (default: 3000)
-- `Metrics API Port`: Port for metrics API (default: 3001)
-- `Dashboard Password`: Optional password protection
+## Features
 
-**Advanced Settings** (optional section):
-- `Log Level`: Logging verbosity for debugging (default: info)
+- **External Docker Image**: Uses the official `cdrakep/synqchronizer:latest` image
+- **Proper Argument Passing**: Passes configuration as command-line arguments as expected by the synchronizer
+- **Port Mapping**: Exposes ports 3333 (WebSocket CLI) and 9090 (HTTP metrics)
+- **Automatic Updates**: Benefits from updates to the official Docker image
 
-## ⚠️ Important - Segmentation Fault Issues
+## How It Works
 
-Some users may experience segmentation faults with synchronizer-cli. If the add-on crashes:
+This add-on:
+1. Uses the official `cdrakep/synqchronizer:latest` Docker image as a base
+2. Maps Home Assistant configuration options to synchronizer command-line arguments
+3. Starts the synchronizer with the proper arguments: `--depin`, `--sync-name`, `--launcher`, `--key`, `--wallet`
 
-### Recommended Safe Configuration:
+## Logs and Monitoring
+
+- Check the add-on logs for synchronizer status and connection information
+- Port 3333 is exposed for WebSocket CLI communication
+- Port 9090 is exposed for HTTP metrics (if supported by the synchronizer)
+
+## Troubleshooting
+
+1. **Check logs**: View add-on logs for connection and startup issues
+2. **Verify configuration**: Ensure synq_key and wallet_address are correctly set
+3. **Network connectivity**: Ensure Home Assistant can reach the DePIN endpoint
+
+## Getting Your Synq Key
+
+1. Visit [multisynq.io](https://multisynq.io) to get your Synq key
+2. You'll also need a cryptocurrency wallet address for rewards
+
+## Example Configuration
+
 ```yaml
-synq_key: "your-key-here"
-wallet_address: "your-wallet-here"
-auto_start: false          # Disable to avoid crashes
-web_dashboard:
-  enable: true             # Use for manual control
-  port: 3000
-advanced:
-  log_level: "debug"       # Enable detailed logging
+synq_key: "your-synq-key-here"
+wallet_address: "your-wallet-address-here"
+sync_name: "my-homeassistant-sync"
+depin_endpoint: "wss://api.multisynq.io/depin"
 ```
 
-### Debugging Commands:
-```bash
-# Access container
-docker exec -it addon_multisynq_synchronizer bash
+## Support
 
-# Run installation test
-/test_installation.sh
-
-# Run debug analysis
-./debug.sh
-
-# Manual start script
-/start_manual.sh
-
-# Check synchronizer status
-synchronize status
-
-# View synchronizer logs
-synchronize logs
-
-# Test manually
-node /usr/lib/node_modules/synchronizer-cli/index.js --version
-```
-
-## Getting Started
-
-1. Get your Synq key from [multisynq.io](https://multisynq.io)
-2. Configure the add-on with your key and wallet address
-3. Start the add-on
-4. Monitor at `http://[your-ha-ip]:3000` (if dashboard enabled)
-
-## More Information
-
-- **Platform Details**: [multisynq.io](https://multisynq.io)
+For issues and support:
+- **GitHub Issues**: [multisynq/synchronizer-ha](https://github.com/multisynq/synchronizer-ha/issues)
 - **CLI Documentation**: [synchronizer-cli repository](https://github.com/multisynq/synchronizer-cli)
-- **Support**: [GitHub Issues](https://github.com/multisynq/synchronizer-ha/issues)
-
----
+- **Platform**: [multisynq.io](https://multisynq.io)
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
-[armhf-shield]: https://img.shields.io/badge/armhf-yes-green.svg
-[armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
-[i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
+
+
+## Manual Testing
+```
+docker build -f Dockerfile.test -t multisynq-synchronizer:test-with-bashio .
+docker run --rm -e SYNQ_KEY="..." -e WALLET_ADDRESS="..." -e SYNC_NAME="..." multisynq-synchronizer:test-with-bashio
+```
