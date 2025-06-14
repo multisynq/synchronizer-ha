@@ -10,6 +10,10 @@ url: "https://github.com/multisynq/synchronizer-ha"
 documentation: "https://github.com/multisynq/synchronizer-cli"
 maintainer: "Miguel Matos <miguel.matos@multisynq.io>"
 host_network: false
+advanced: false
+stage: stable
+startup: application
+boot: auto
 image: "ghcr.io/multisynq/synchronizer-ha/multisynq_synchronizer"
 options:
   synq_key: ""
@@ -22,3 +26,5 @@ schema:
 ports:
   "3333/tcp": 3333
   "9090/tcp": 9090
+map:
+  - "share:rw"
