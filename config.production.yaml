@@ -7,7 +7,7 @@ arch:
   - aarch64
   - amd64
 url: "https://github.com/multisynq/synchronizer-ha"
-# image: "ghcr.io/multisynq/{arch}-synchronizer-ha"  # Commented out for local builds
+image: "ghcr.io/multisynq/{arch}-synchronizer-ha"
 options:
   synq_key: null
   wallet_address: null

@@ -43,44 +43,86 @@ if [ -f "/data/options.json" ]; then
     echo "Reading config with jq..."
     SYNQ_KEY=$(jq -r '.synq_key // ""' /data/options.json)
     WALLET_ADDRESS=$(jq -r '.wallet_address // ""' /data/options.json)
-    SYNC_NAME=$(jq -r '.sync_name // "homeassistant-addon"' /data/options.json)
+    
+    # Additional check for null values from jq
+    if [ "$SYNQ_KEY" = "null" ]; then
+      SYNQ_KEY=""
+    fi
+    if [ "$WALLET_ADDRESS" = "null" ]; then
+      WALLET_ADDRESS=""
+    fi
   else
     echo "jq not available, trying bashio command..."
     if [ "$BASHIO_AVAILABLE" = "true" ]; then
       SYNQ_KEY=$(bashio config synq_key)
       WALLET_ADDRESS=$(bashio config wallet_address)
-      SYNC_NAME=$(bashio config sync_name)
-    else
-      echo "Neither jq nor bashio available for config reading"
-      SYNQ_KEY=""
-      WALLET_ADDRESS=""
-      SYNC_NAME="homeassistant-addon"
+    else    echo "Neither jq nor bashio available for config reading"
+    SYNQ_KEY=""
+    WALLET_ADDRESS=""
     fi
   fi
 else
   echo "No configuration file found at /data/options.json"
   SYNQ_KEY=""
   WALLET_ADDRESS=""
-  SYNC_NAME="homeassistant-addon"
+fi
+
+# Generate or retrieve persistent synchronizer name
+SYNC_NAME_FILE="/share/multisynq_sync_name.txt"
+if [ -f "$SYNC_NAME_FILE" ]; then
+  SYNC_NAME=$(cat "$SYNC_NAME_FILE")
+  echo "Using existing synchronizer name: $SYNC_NAME"
+else
+  # Generate random 12-character hex string
+  if command -v openssl >/dev/null 2>&1; then
+    RANDOM_SUFFIX=$(openssl rand -hex 6)
+  elif [ -f /dev/urandom ]; then
+    RANDOM_SUFFIX=$(head -c 6 /dev/urandom | xxd -p)
+  else
+    # Fallback: use current timestamp and process ID
+    RANDOM_SUFFIX=$(printf "%012x" $(($(date +%s) * $$ % 16777215)))
+  fi
+  
+  SYNC_NAME="ha-${RANDOM_SUFFIX}"
+  echo "Generated new synchronizer name: $SYNC_NAME"
+  
+  # Save the name for future use
+  echo "$SYNC_NAME" > "$SYNC_NAME_FILE"
+  if [ $? -eq 0 ]; then
+    echo "Synchronizer name saved to $SYNC_NAME_FILE"
+  else
+    log_error "Failed to save synchronizer name to $SYNC_NAME_FILE"
+    log_error "Name will be regenerated on next restart"
+  fi
 fi
 
 echo "Configuration values:"
 echo "  API Key: ${SYNQ_KEY:0:8}... (${#SYNQ_KEY} chars)"
 echo "  Wallet Address: ${WALLET_ADDRESS}"
-echo "  Sync Name: ${SYNC_NAME}"
+echo "  Sync Name: ${SYNC_NAME} (persistent)"
 
-# Validate required values
-if [ -z "$SYNQ_KEY" ]; then
-  log_error "API Key is required but not configured"
-  log_error "Please fill in your API Key in the Home Assistant addon configuration"
-  log_error "Get your API Key from https://multisynq.io"
+# Early validation feedback
+if [ -z "$SYNQ_KEY" ] || [ "$SYNQ_KEY" = "" ]; then
+  echo "WARNING: SYNQ_KEY is missing or empty - addon will crash!"
+fi
+if [ -z "$WALLET_ADDRESS" ] || [ "$WALLET_ADDRESS" = "" ]; then
+  echo "WARNING: WALLET_ADDRESS is missing or empty - addon will crash!"
+fi
+
+# Validate required values - forcibly crash if missing or empty
+if [ -z "$SYNQ_KEY" ] || [ "$SYNQ_KEY" = "" ]; then
+  log_error "FATAL: API Key is required but not configured or is empty"
+  log_error "FATAL: Please fill in your API Key in the Home Assistant addon configuration"
+  log_error "FATAL: Get your API Key from https://multisynq.io"
+  log_error "FATAL: Addon will now crash intentionally"
   exit 1
 fi
 
-if [ -z "$WALLET_ADDRESS" ]; then
-  log_error "Wallet Address is required but not configured"
-  log_error "Please fill in your Wallet Address in the Home Assistant addon configuration"
-  log_error "This is where you'll receive your rewards"
+if [ -z "$WALLET_ADDRESS" ] || [ "$WALLET_ADDRESS" = "" ]; then
+  log_error "FATAL: Wallet Address is required but not configured or is empty"
+  log_error "FATAL: Please fill in your Wallet Address in the Home Assistant addon configuration"
+  log_error "FATAL: This is where you'll receive your rewards"
+  log_error "FATAL: Addon will now crash intentionally"
   exit 1
 fi
 
