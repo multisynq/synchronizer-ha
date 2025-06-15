@@ -1,0 +1,10 @@
+{
+  "syncName": "ha-test123456",
+  "walletAddress": "0x119F2a39029aA16A786bbE6750342768e779a15e",
+  "synqKey": "test1234...",
+  "liteMode": false,
+  "depinEndpoint": "wss://api.multisynq.io/depin",
+  "addonVersion": "1.2.0-test",
+  "timestamp": 1750011708,
+  "configSource": "test-data"
+}

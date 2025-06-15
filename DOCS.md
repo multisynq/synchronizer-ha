@@ -13,9 +13,16 @@ Multisynq Synchronizer is a DePIN (Decentralized Physical Infrastructure Network
 
 ### Features
 
-- Easy setup through Home Assistant UI
-- Automatic configuration management
-- Supports multiple architectures (amd64, aarch64)
+- 🚀 Easy setup through Home Assistant UI
+- 🔧 Automatic configuration management
+- 🌐 Built-in web dashboard with real-time stats
+- 📊 WebSocket connectivity for live monitoring
+- 🏷️ Persistent synchronizer naming
+- 💰 Wallet integration for reward tracking
+- ⚡ Lite mode support for minimal resource usage
+- 🐛 Debug endpoints for troubleshooting
+- 🎨 Enhanced logging with emoji indicators
+- 📱 Supports multiple architectures (amd64, aarch64)
 
 ## Installation
 
@@ -28,16 +35,88 @@ Multisynq Synchronizer is a DePIN (Decentralized Physical Infrastructure Network
 
 1. Configure your Synq Key and Wallet Address in the add-on configuration
 2. Start the add-on
+3. Access the web dashboard at `http://<your-ha-ip>:8099` (full mode only)
+4. Monitor your synchronizer's performance and earnings
+
+### Web Dashboard
+
+When running in full mode, the add-on provides a web dashboard that displays:
+
+- 🏷️ Synchronizer name and status
+- 💰 Wallet address and reward information
+- 📊 Active sessions and connected users
+- 📈 Traffic statistics and lifetime points
+- 🔗 Proxy connection status
+- ⏱️ Uptime and performance metrics
+
+The dashboard connects to the synchronizer via WebSocket on port 3333 for real-time updates.
+
+### Lite Mode
+
+Enable lite mode in the configuration to run the synchronizer without the web dashboard, using minimal resources.
 
 ## Configuration
 
-### Option: `synq_key`
+### Option: `synq_key` (required)
 
 Your Synq API key for authentication with the Multisynq network.
 
-### Option: `wallet_address`
+**Note:** Get your API key from [https://multisynq.io](https://multisynq.io)
 
-Your wallet address for receiving rewards.
+### Option: `wallet_address` (required)
+
+Your wallet address for receiving rewards. This is where your earned tokens will be sent.
+
+### Option: `lite_mode` (optional)
+
+Enable lite mode to run the synchronizer without the web dashboard, using minimal system resources.
+
+- Default: `false`
+- Set to `true` for minimal resource usage
+
+## API Endpoints
+
+When running in full mode, the add-on provides several API endpoints:
+
+### Configuration API
+- **URL:** `http://<your-ha-ip>:8099/api/config`
+- **Method:** GET
+- **Description:** Returns the current synchronizer configuration
+
+### Debug API
+- **URL:** `http://<your-ha-ip>:8099/api/debug`
+- **Method:** GET
+- **Description:** Returns detailed system information for troubleshooting
+
+## Logging
+
+The add-on uses enhanced logging with emoji indicators for easy identification:
+
+- 🚀 Startup and launch messages
+- ✅ Success operations
+- ❌ Error conditions
+- ⚠️ Warning messages
+- ℹ️ Informational messages
+- 🔧 Configuration operations
+- 📄 File operations
+- 🌐 Network operations
+
+## Troubleshooting
+
+### Check Configuration
+1. Verify your `synq_key` and `wallet_address` are correctly set
+2. Use the debug API endpoint to check system status
+3. Review the add-on logs for any error messages
+
+### Dashboard Not Loading
+1. Ensure the add-on is running in full mode (not lite mode)
+2. Check that port 8099 is accessible from your network
+3. Verify the synchronizer is running and WebSocket port 3333 is available
+
+### Connection Issues
+1. Check your network connectivity
+2. Verify firewall settings allow outbound connections
+3. Review the logs for connection error messages
 
 ## Support
 

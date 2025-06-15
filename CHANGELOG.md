@@ -4,13 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2.0] - 2025-06-15
 
-### 🎉 New Feature - Web Dashboard Panel
+### New Feature - Web Dashboard Panel
 - **Web Dashboard**: Added dedicated Home Assistant UI panel accessible via the add-on interface
 - **Real-time Status**: Live status indicator showing if synchronizer is online/offline
 - **Synchronizer Info**: Display synchronizer name, wallet address (masked), and uptime
 - **Auto-refresh**: Dashboard automatically updates every 30 seconds
 - **Modern UI**: Clean, responsive interface with status indicators and real-time updates
 - **Integrated Monitoring**: Status server monitors synchronizer health and provides restart capability
+
+### 🎨 Enhanced Logging & Configuration System
+- **Emoji Logging**: Implemented consistent emoji-based logging across all components for improved readability
+- **Centralized Configuration**: Added comprehensive configuration file creation in `/share/multisynq_config.json`
+- **Logger Function**: Added standardized Logger function in simple-server.js with four core types (info, error, success, warning)
+- **Bashio Error Suppression**: Fixed spamming bashio errors by adding proper error handling and fallback methods
 
 ### Added
 - Web panel accessible at port 8099 with real-time synchronizer status
@@ -21,10 +27,27 @@ All notable changes to this project will be documented in this file.
 - **Lite Mode**: New configuration option to disable web UI and metrics tracking for minimal overhead
 - **Port Descriptions**: Added comprehensive port legends and descriptions in configuration
 - **Translation Support**: Enhanced configuration translations including lite mode and port descriptions
+- 🚀 Emoji-enhanced startup messages and process indicators
+- 🔧 Configuration loading with detailed path checking and fallback mechanisms
+- 📄 File operation logging with success/failure indicators
+- ✅ Success, ❌ Error, ⚠️ Warning, ℹ️ Info message categorization
+- 💰 Wallet address, 🏷️ sync name, and 🔑 API key visual indicators
+- 🌐 Network and 🐛 debug endpoint identification
+- 📊 Enhanced debug API endpoint with comprehensive system information
 
 ### Fixed
 - **WebSocket Dependency**: Added WebSocket (`ws`) package installation to resolve "Cannot find module 'ws'" error
 - Responsive web design compatible with Home Assistant themes
+- Bashio command errors no longer spam the logs with "No such file or directory" messages
+- Configuration loading now properly handles missing files and provides clear error messages
+- Logger function correctly handles undefined message types with graceful fallback
+
+### Improved
+- **Configuration Management**: Robust config file creation and reading from Home Assistant environment
+- **Error Handling**: Better error suppression and fallback for bashio unavailability
+- **Process Management**: Enhanced startup logging for both synchronizer and web server processes
+- **Debug Information**: Comprehensive debug endpoint showing environment, filesystem, and configuration status
+- **Development Support**: Improved fallback paths for development/testing environments
 
 ### Changed
 - Synchronizer now runs through a status server wrapper for better monitoring (unless lite mode is enabled)
@@ -34,6 +57,9 @@ All notable changes to this project will be documented in this file.
 - **Lite Mode**: When enabled, runs synchronizer directly without status server, web UI, or metrics collection
 - **Port Configuration**: Added detailed descriptions for all ports (3333, 9090, 8099) with usage guidelines
 - **Configuration Schema**: Enhanced with proper port descriptions and translation support
+- Unified logging system between run.sh (bash) and simple-server.js (Node.js)
+- Configuration file sharing between synchronizer startup and web dashboard
+- Enhanced API endpoints for configuration and debug information
 
 ### Technical Details
 - Status server built with Node.js HTTP server

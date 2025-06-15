@@ -10,13 +10,30 @@
     <div class="dashboard">
         <header class="header">
             <h1>Multisynq Synchronizer</h1>
-            <div class="status-indicator">
-                <span class="status-dot" id="connectionStatus"></span>
-                <span class="status-text" id="connectionText">Connecting...</span>
+            <div class="header-controls">
+                <div class="status-indicator">
+                    <span class="status-dot" id="connectionStatus"></span>
+                    <span class="status-text" id="connectionText">Connecting...</span>
+                </div>
+                <button class="refresh-button" id="refreshButton" title="Refresh stats (max 1/second)">
+                    🔄
+                </button>
             </div>
         </header>
 
         <div class="metrics-grid">
+            <!-- Connection Info Card (shown when disconnected) -->
+            <div class="metric-card info" id="connectionInfo" style="display: none;">
+                <div class="metric-header">
+                    <h3>Connection Info</h3>
+                    <div class="metric-icon">ℹ️</div>
+                </div>
+                <div class="metric-content">
+                    <p>Dashboard connects to synchronizer WebSocket on port 3333</p>
+                    <p>Make sure the synchronizer is running and accessible</p>
+                    <div id="debugInfo" style="margin-top: 10px; font-family: monospace; font-size: 0.8rem; opacity: 0.8;"></div>
+                </div>
+            </div>
             <!-- Synchronizer Info Card -->
             <div class="metric-card primary">
                 <div class="metric-header">
@@ -63,8 +80,16 @@
                     <h3>Points</h3>
                     <div class="metric-icon">⭐</div>
                 </div>
-                <div class="metric-value" id="pointsEarned">0</div>
-                <div class="metric-label">Earned</div>
+                <div class="metric-content">
+                    <div class="traffic-stat">
+                        <span class="traffic-label">Sync:</span>
+                        <span class="traffic-value" id="syncLifePoints">0</span>
+                    </div>
+                    <div class="traffic-stat">
+                        <span class="traffic-label">Wallet:</span>
+                        <span class="traffic-value" id="walletLifePoints">0</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Traffic Stats Card -->
@@ -82,6 +107,10 @@
                         <span class="traffic-label">↓ Download:</span>
                         <span class="traffic-value" id="downloadTraffic">0 MB</span>
                     </div>
+                    <div class="traffic-stat">
+                        <span class="traffic-label">📈 Lifetime:</span>
+                        <span class="traffic-value" id="lifetimeTraffic">0 MB</span>
+                    </div>
                 </div>
             </div>
 
@@ -93,8 +122,8 @@
                 </div>
                 <div class="metric-content">
                     <div class="qos-metric">
-                        <span class="qos-label">Latency:</span>
-                        <span class="qos-value" id="latency">-- ms</span>
+                        <span class="qos-label">Proxy:</span>
+                        <span class="qos-value" id="proxyStatus">--</span>
                     </div>
                     <div class="qos-metric">
                         <span class="qos-label">Uptime:</span>
@@ -125,6 +154,7 @@
         <footer class="footer">
             <div class="footer-info">
                 <span>Last updated: <span id="lastUpdate">--</span></span>
+                <span>Auto-refresh: 1 minute</span>
                 <span>Version: <span id="version">1.2.0</span></span>
             </div>
         </footer>

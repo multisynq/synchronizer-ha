@@ -61,7 +61,7 @@ RUN if command -v npm >/dev/null 2>&1; then \
 WORKDIR /
 
 # Copy the status server and web panel files
-COPY status-server.js /app/status-server.js
+COPY simple-server.js /app/simple-server.js
 COPY www/ /app/www/
 
 # Add Home Assistant labels

@@ -47,6 +47,12 @@ body {
     background-clip: text;
 }
 
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .status-indicator {
     display: flex;
     align-items: center;
@@ -55,6 +61,32 @@ body {
     padding: 10px 20px;
     border-radius: 25px;
     backdrop-filter: blur(10px);
+}
+
+.refresh-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: white;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.refresh-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.refresh-button:active {
+    transform: scale(0.95);
 }
 
 .status-dot {
@@ -211,6 +243,19 @@ body {
     opacity: 0.7;
 }
 
+/* Info Card Styles */
+.metric-card.info {
+    background: rgba(255, 193, 7, 0.15);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    grid-column: 1 / -1;
+}
+
+.metric-card.info .metric-content p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     body {
@@ -221,6 +266,11 @@ body {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+    }
+    
+    .header-controls {
+        flex-direction: column;
+        gap: 10px;
     }
     
     .header h1 {
