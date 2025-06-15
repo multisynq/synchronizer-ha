@@ -14,6 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Setup production config
+      run: cp multisynq_synchronizer/config.production.yaml multisynq_synchronizer/config.yaml
+
     - name: Docker login
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${{ github.repository_owner }} --password-stdin ghcr.io
 
@@ -24,4 +27,4 @@ jobs:
             -v /run/docker.sock:/run/docker.sock:rw \
             -v $(pwd):/data \
             homeassistant/amd64-builder --amd64 --aarch64 -t /data \
-            --no-cache --docker-hub ghcr.io/${{ github.repository_owner }}/synchronizer-ha
+            --no-cache --docker-hub ghcr.io/${{ github.repository_owner }}
