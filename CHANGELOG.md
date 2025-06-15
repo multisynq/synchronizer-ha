@@ -155,6 +155,68 @@ Users must configure in Home Assistant Settings > Add-ons > Configuration:
 - Web dashboard and metrics ports remain the same (3000/3001)
 - All user configuration options are preserved
 
+## [1.0.3] - 2025-06-14
+
+### 🔄 Simplified Configuration Management
+- **Enhanced Documentation**: Added comprehensive documentation with clear deployment guidelines
+- **Simplified Docker Setup**: Streamlined Dockerfile for better local testing and development
+- **Configuration Validation**: Improved configuration file structure and validation
+- **User Experience Focus**: Cleaned up add-on presentation for better user adoption
+
+### Added
+- Enhanced README.md with better testing instructions and manual commands
+- Simplified configuration options focusing on essential settings
+- Improved error messages and user guidance
+- Better documentation links and support resources
+
+### Changed
+- Simplified Dockerfile to focus on essential Node.js and npm installation
+- Updated configuration management for better reliability
+- Improved container image metadata and labeling
+- Enhanced run script with better error handling
+
+### Removed
+- Unnecessary debug scripts and complex troubleshooting tools
+- Redundant configuration files that complicated setup
+- Overly technical documentation that confused users
+
+### Technical Details
+- Streamlined Docker image building process
+- Better Node.js version management and validation
+- Simplified synchronizer-cli installation process
+- Improved container startup and configuration handling
+
+## [1.0.2] - 2025-06-14
+
+### 🐛 Improved Docker Testing and Configuration
+- **Better Docker Local Testing**: Enhanced Docker setup for improved local development and testing
+- **Simplified Configuration**: Removed advanced configuration options that were causing confusion
+- **Enhanced Documentation**: Updated description to better reflect DePIN network participation
+- **Streamlined Setup**: Simplified add-on configuration for better user experience
+
+### Added
+- Enhanced Dockerfile.test for better testing environment
+- Simple configuration template (config-simple.yaml) for basic setups
+- Better documentation links including synchronizer-cli repository
+- Improved manual testing commands and debugging instructions
+
+### Changed
+- **Dockerfile**: Significantly simplified from complex Node.js installation to basic setup
+- **config.yaml**: Updated version to 1.0.2 and improved description
+- **README.md**: Added manual testing instructions and better command examples
+- Removed complex Node.js architecture detection and installation scripts
+
+### Removed
+- Complex Node.js version validation and architecture-specific installation
+- Advanced debugging and verification scripts that were over-engineering the setup
+- Unnecessary npm configuration and cache management
+
+### Technical Improvements
+- Simplified Docker image build process reducing complexity
+- Better container metadata and maintainer information
+- Cleaner run script execution without excessive validation
+- More reliable add-on startup and configuration handling
+
 ## [1.0.4] - 2025-06-14
 
 ### Known Issues

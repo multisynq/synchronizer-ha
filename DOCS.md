@@ -48,7 +48,7 @@ Got questions?
 
 ## Authors & contributors
 
-The original setup of this repository is by [Miguel Matos][maintainer].
+The original setup of this repository is by [Miguel Matos @multisynq][maintainer].
 
 ## License
 
