@@ -20,11 +20,42 @@ After installing the add-on, you need to configure it with your Multisynq creden
 1. Go to the add-on configuration tab
 2. Fill in your **Synq Key** (get this from [https://startsynqing.com/](https://startsynqing.com/))
 3. Fill in your **Wallet Address** (for receiving rewards)
-4. Save the configuration and start the add-on
+4. **Optional**: Enable **Lite Mode** for minimal overhead (see below)
+5. Save the configuration and start the add-on
 
 The add-on will automatically generate a unique synchronizer name with the format `ha-<random12chars>` that persists across restarts.
 
 The add-on will not start without a valid API key and wallet address.
+
+### Lite Mode
+
+The add-on supports two operation modes:
+
+#### Full Mode (Default)
+- Includes web dashboard with real-time monitoring
+- Status server with metrics collection and API endpoints
+- Auto-restart capabilities for the synchronizer process
+- Accessible via "OPEN WEB UI" button in Home Assistant
+
+#### Lite Mode
+- **Minimal Resource Usage**: Runs synchronizer directly without web UI overhead
+- **No Web Dashboard**: Disables status server and web interface entirely
+- **No Metrics Collection**: Skips all monitoring and statistics gathering
+- **Direct Execution**: Synchronizer runs directly without wrapper processes
+- **Best For**: Users who want minimal system impact and don't need monitoring
+
+To enable Lite Mode, set the `lite_mode` configuration option to `true` in the add-on settings.
+
+## Web Dashboard
+
+This add-on includes a built-in web dashboard that provides real-time status monitoring:
+
+- **Real-time Status**: See if your synchronizer is online and actively syncing
+- **Synchronizer Details**: View your synchronizer name, wallet address, and uptime
+- **Auto-refresh**: Dashboard updates automatically every 30 seconds
+- **Direct Access**: Click "OPEN WEB UI" in the Home Assistant add-on interface
+
+The web dashboard is accessible directly from the Home Assistant add-on page and provides an easy way to monitor your synchronizer's health without checking logs.
 
 ## Development
 

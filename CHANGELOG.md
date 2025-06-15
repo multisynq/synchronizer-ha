@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2025-06-15
+
+### 🎉 New Feature - Web Dashboard Panel
+- **Web Dashboard**: Added dedicated Home Assistant UI panel accessible via the add-on interface
+- **Real-time Status**: Live status indicator showing if synchronizer is online/offline
+- **Synchronizer Info**: Display synchronizer name, wallet address (masked), and uptime
+- **Auto-refresh**: Dashboard automatically updates every 30 seconds
+- **Modern UI**: Clean, responsive interface with status indicators and real-time updates
+- **Integrated Monitoring**: Status server monitors synchronizer health and provides restart capability
+
+### Added
+- Web panel accessible at port 8099 with real-time synchronizer status
+- Status API endpoint providing JSON status information
+- Automatic synchronizer process monitoring and restart capability
+- Visual status indicators (online/offline) with color-coded interface
+- Uptime tracking and last-check timestamps
+- **Lite Mode**: New configuration option to disable web UI and metrics tracking for minimal overhead
+- **Port Descriptions**: Added comprehensive port legends and descriptions in configuration
+- **Translation Support**: Enhanced configuration translations including lite mode and port descriptions
+
+### Fixed
+- **WebSocket Dependency**: Added WebSocket (`ws`) package installation to resolve "Cannot find module 'ws'" error
+- Responsive web design compatible with Home Assistant themes
+
+### Changed
+- Synchronizer now runs through a status server wrapper for better monitoring (unless lite mode is enabled)
+- Added webui configuration to Home Assistant add-on for direct panel access
+- Enhanced error handling and process management
+- Updated port configuration to include web panel port (8099)
+- **Lite Mode**: When enabled, runs synchronizer directly without status server, web UI, or metrics collection
+- **Port Configuration**: Added detailed descriptions for all ports (3333, 9090, 8099) with usage guidelines
+- **Configuration Schema**: Enhanced with proper port descriptions and translation support
+
+### Technical Details
+- Status server built with Node.js HTTP server
+- Automatic synchronizer process restart on failure
+- CORS-enabled API for cross-origin requests
+- Secure file serving with directory traversal protection
+- **Lite Mode Implementation**: Conditional execution path in run.sh based on configuration
+- **Port Management**: 
+  - Port 3333: Synchronizer main communication (required)
+  - Port 9090: Prometheus metrics endpoint (required)
+  - Port 8099: Web dashboard and stats server (optional, customizable)
+- **Configuration Parsing**: Enhanced jq and bashio support for boolean configuration options
+- **Translation Infrastructure**: Comprehensive multilingual support for configuration options
+
 ## [1.1.2] - 2025-06-15
 
 ### 🔧 Maintenance Release

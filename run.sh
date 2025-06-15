@@ -1,12 +1,12 @@
 #!/bin/bash
+ADDON_VERSION="1.2.0"
+SYNQ_NAME_LENGTH=12
 
 echo "=== Multisynq Synchronizer Starting ==="
 echo "$(date): Script started"
 echo "System: $(uname -a)"
 echo "Architecture: $(uname -m)"
-
-VERSION=$(grep -oP '"version":\s*"\K[^"]+' /app/package.json)
-echo "Home Assistant Addon Version: $VERSION"
+echo "Home Assistant Addon Version: $ADDON_VERSION"
 echo ""
 
 DEPIN_ENDPOINT="wss://api.multisynq.io/depin"
@@ -49,6 +49,7 @@ if [ -f "/data/options.json" ]; then
     echo "Reading config with jq..."
     SYNQ_KEY=$(jq -r '.synq_key // ""' /data/options.json)
     WALLET_ADDRESS=$(jq -r '.wallet_address // ""' /data/options.json)
+    LITE_MODE=$(jq -r '.lite_mode // false' /data/options.json)
     
     # Additional check for null values from jq
     if [ "$SYNQ_KEY" = "null" ]; then
@@ -57,20 +58,26 @@ if [ -f "/data/options.json" ]; then
     if [ "$WALLET_ADDRESS" = "null" ]; then
       WALLET_ADDRESS=""
     fi
+    if [ "$LITE_MODE" = "null" ]; then
+      LITE_MODE="false"
+    fi
   else
     echo "jq not available, trying bashio command..."
     if [ "$BASHIO_AVAILABLE" = "true" ]; then
       SYNQ_KEY=$(bashio config synq_key)
       WALLET_ADDRESS=$(bashio config wallet_address)
+      LITE_MODE=$(bashio config lite_mode)
     else    echo "Neither jq nor bashio available for config reading"
     SYNQ_KEY=""
     WALLET_ADDRESS=""
+    LITE_MODE="false"
     fi
   fi
 else
   echo "No configuration file found at /data/options.json"
   SYNQ_KEY=""
   WALLET_ADDRESS=""
+  LITE_MODE="false"
 fi
 
 # Generate or retrieve persistent synchronizer name
@@ -79,18 +86,23 @@ if [ -f "$SYNC_NAME_FILE" ]; then
   SYNC_NAME=$(cat "$SYNC_NAME_FILE")
   echo "Using existing synchronizer name: $SYNC_NAME"
 else
-  # Generate random 12-character hex string
+  # Generate random hex string with configurable length
+  RANDOM_HEX_BYTES=$((SYNQ_NAME_LENGTH / 2))  # 2 hex chars per byte
+  
   if command -v openssl >/dev/null 2>&1; then
-    RANDOM_SUFFIX=$(openssl rand -hex 6)
+    RANDOM_SUFFIX=$(openssl rand -hex $RANDOM_HEX_BYTES)
   elif [ -f /dev/urandom ]; then
-    RANDOM_SUFFIX=$(head -c 6 /dev/urandom | xxd -p)
+    RANDOM_SUFFIX=$(head -c $RANDOM_HEX_BYTES /dev/urandom | xxd -p)
   else
-    # Fallback: use current timestamp and process ID
-    RANDOM_SUFFIX=$(printf "%012x" $(($(date +%s) * $$ % 16777215)))
+    # Fallback: use current timestamp and process ID, truncate to desired length
+    RANDOM_SUFFIX=$(printf "%0${SYNQ_NAME_LENGTH}x" $(($(date +%s) * $$ % $((16**SYNQ_NAME_LENGTH)))))
   fi
   
+  # Ensure the suffix is exactly the right length
+  RANDOM_SUFFIX=${RANDOM_SUFFIX:0:$SYNQ_NAME_LENGTH}
+  
   SYNC_NAME="ha-${RANDOM_SUFFIX}"
-  echo "Generated new synchronizer name: $SYNC_NAME"
+  echo "Generated new synchronizer name: $SYNC_NAME (${SYNQ_NAME_LENGTH} char suffix)"
   
   # Save the name for future use
   echo "$SYNC_NAME" > "$SYNC_NAME_FILE"
@@ -106,6 +118,7 @@ echo "Configuration values:"
 echo "  API Key: ${SYNQ_KEY:0:8}... (${#SYNQ_KEY} chars)"
 echo "  Wallet Address: ${WALLET_ADDRESS}"
 echo "  Sync Name: ${SYNC_NAME} (persistent)"
+echo "  Lite Mode: ${LITE_MODE}"
 
 # Early validation feedback
 if [ -z "$SYNQ_KEY" ] || [ "$SYNQ_KEY" = "" ]; then
@@ -135,22 +148,65 @@ fi
 log_info "Starting Multisynq Synchronizer..."
 log_info "Sync Name: ${SYNC_NAME}"
 log_info "Wallet: ${WALLET_ADDRESS}"
+log_info "Lite Mode: ${LITE_MODE}"
 
-# Check for the synchronizer
-if [ -f "/usr/src/synchronizer/wrapper.js" ]; then
-  log_info "Found synchronizer wrapper"
+# Export environment variables for the status server
+export SYNQ_KEY="$SYNQ_KEY"
+export WALLET_ADDRESS="$WALLET_ADDRESS"
+export SYNC_NAME="$SYNC_NAME"
+export DEPIN_ENDPOINT="$DEPIN_ENDPOINT"
+
+# Check if lite mode is enabled
+if [ "$LITE_MODE" = "true" ]; then
+  log_info "Lite mode enabled - starting synchronizer directly without web panel"
   
-  # Build arguments
-  ARGS=(
-    "--sync-name" "$SYNC_NAME"
-    "--key" "$SYNQ_KEY"
-    "--wallet" "$WALLET_ADDRESS"
-    "--depin" "$DEPIN_ENDPOINT"
-  )
-  
-  log_info "Starting synchronizer with arguments: ${ARGS[*]}"
-  exec node /usr/src/synchronizer/wrapper.js "${ARGS[@]}"
+  # Start synchronizer directly without status server
+  if [ -f "/usr/src/synchronizer/wrapper.js" ]; then
+    log_info "Found synchronizer wrapper, starting directly"
+    
+    # Build arguments
+    ARGS=(
+      "--sync-name" "$SYNC_NAME"
+      "--key" "$SYNQ_KEY"
+      "--wallet" "$WALLET_ADDRESS"
+      "--depin" "$DEPIN_ENDPOINT"
+    )
+    
+    log_info "Starting synchronizer with arguments: ${ARGS[*]}"
+    exec node /usr/src/synchronizer/wrapper.js "${ARGS[@]}"
+  else
+    log_error "Synchronizer wrapper not found at /usr/src/synchronizer/wrapper.js"
+    exit 1
+  fi
 else
-  log_error "Synchronizer wrapper not found at /usr/src/synchronizer/wrapper.js"
-  exit 1
+  log_info "Full mode enabled - starting with web panel on port 8099"
+  
+  # Check for the status server
+  if [ -f "/app/status-server.js" ]; then
+    log_info "Found status server, starting web panel"
+    
+    # Start the status server which will also manage the synchronizer
+    exec node /app/status-server.js
+  else
+    log_error "Status server not found at /app/status-server.js"
+    
+    # Fallback to direct synchronizer execution
+    if [ -f "/usr/src/synchronizer/wrapper.js" ]; then
+      log_info "Found synchronizer wrapper, starting directly"
+      
+      # Build arguments
+      ARGS=(
+        "--sync-name" "$SYNC_NAME"
+        "--key" "$SYNQ_KEY"
+        "--wallet" "$WALLET_ADDRESS"
+        "--depin" "$DEPIN_ENDPOINT"
+      )
+      
+      log_info "Starting synchronizer with arguments: ${ARGS[*]}"
+      exec node /usr/src/synchronizer/wrapper.js "${ARGS[@]}"
+    else
+      log_error "Neither status server nor synchronizer wrapper found"
+      exit 1
+    fi
+  fi
 fi

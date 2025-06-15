@@ -1,21 +1,29 @@
 name: "Multisynq Synchronizer"
 description: "Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards"
-version: "1.1.2"
+version: "1.2.0"
 slug: "multisynq_synchronizer"
 init: false
 arch:
   - aarch64
   - amd64
 url: "https://github.com/multisynq/synchronizer-ha"
+webui: "http://[HOST]:[PORT:8099]"
 # image: "ghcr.io/multisynq/{arch}-synchronizer-ha"  # Commented out for local builds
 options:
   synq_key: null
   wallet_address: null
+  lite_mode: false
 schema:
   synq_key: str
   wallet_address: str
+  lite_mode: bool
 ports:
   "3333/tcp": 3333
   "9090/tcp": 9090
+  "8099/tcp": 8099
+ports_description:
+  "3333/tcp": "Synchronizer communication port (required, don't change)"
+  "9090/tcp": "Synchronizer metrics port (required, don't change)"
+  "8099/tcp": "Web dashboard and stats server (optional, customizable)"
 map:
   - "share:rw"

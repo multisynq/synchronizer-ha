@@ -7,11 +7,15 @@ For updates, please ensure to update the version in **ALL** of the following fil
 2. **`config.yaml`** - Update the `version` field (used for local development)
 3. **`config.production.yaml`** - Update the `version` field (used by CI/CD build process)
 4. **`Dockerfile`** - Update the `io.hass.version` label
+5. **`run.sh`** - Update the `ADDON_VERSION` variable
 
 ## Critical Notes
 - ⚠️ **The CI/CD build uses `config.production.yaml`**
 - The build process runs `cp config.production.yaml config.yaml` before building
 - Both config files must have matching versions for consistency
+- **Port 8099** is used for the web dashboard panel
+- Web UI is accessible via the "OPEN WEB UI" button in Home Assistant
+- **Lite Mode**: Users can disable web UI and metrics via `lite_mode: true` configuration
 
 ## Release Process
 1. Update all version numbers in the files listed above

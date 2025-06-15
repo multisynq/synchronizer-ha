@@ -2,47 +2,20 @@
   "configuration": {
     "synq_key": {
       "name": "Synq Key",
-      "description": "Your Synq key from the Multisynq platform (required)"
+      "description": "Your Synq key from the Multisynq platform (required) https://startsynqing.com/"
     },
     "wallet_address": {
       "name": "Wallet Address", 
       "description": "Your wallet address for receiving rewards (required)"
     },
-    "sync_name": {
-      "name": "Synchronizer Name",
-      "description": "A friendly name for your synchronizer instance"
-    },
-    "auto_start": {
-      "name": "Auto Start Synchronizer",
-      "description": "Automatically start the synchronizer when the add-on starts"
-    },
-    "web_dashboard": {
-      "name": "Web Dashboard",
-      "description": "Configure the web dashboard for monitoring and control"
-    },
-    "web_dashboard.enable": {
-      "name": "Enable Dashboard",
-      "description": "Enable the web dashboard interface for monitoring"
-    },
-    "web_dashboard.port": {
-      "name": "Dashboard Port",
-      "description": "Port for accessing the web dashboard interface"
-    },
-    "web_dashboard.metrics_port": {
-      "name": "Metrics API Port", 
-      "description": "Port for the metrics API server"
-    },
-    "web_dashboard.password": {
-      "name": "Dashboard Password",
-      "description": "Optional password to protect dashboard access"
-    },
-    "advanced": {
-      "name": "Advanced Settings",
-      "description": "Advanced configuration options for debugging and troubleshooting"
-    },
-    "advanced.log_level": {
-      "name": "Log Level",
-      "description": "Logging verbosity level for debugging"
+    "lite_mode": {
+      "name": "Lite Mode",
+      "description":  "Lite mode disables the stats server, running only the synchronizer. Use this if you need to save resources."
     }
+  },
+  "network": {
+    "3333/tcp": "Synchronizer main communication port (required, don't change)",
+    "9090/tcp": "Synchronizer metrics/prometheus port (required, don't change)", 
+    "8099/tcp": "Web dashboard and stats server (optional, customizable)"
   }
 }

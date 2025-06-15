@@ -46,12 +46,30 @@ RUN echo '#!/bin/bash' > /usr/bin/with-contenv && \
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
+# Copy configuration for version detection
+COPY config.yaml /app/config.yaml
+
+# Install WebSocket dependency for the synchronizer
+WORKDIR /usr/src/synchronizer
+RUN if command -v npm >/dev/null 2>&1; then \
+        echo "Installing WebSocket dependency..." && \
+        npm init -y >/dev/null 2>&1 || true && \
+        npm install ws || npm install -g ws; \
+    else \
+        echo "npm not available, WebSocket dependency might be missing"; \
+    fi
+WORKDIR /
+
+# Copy the status server and web panel files
+COPY status-server.js /app/status-server.js
+COPY www/ /app/www/
+
 # Add Home Assistant labels
 LABEL \
     io.hass.name="Multisynq Synchronizer" \
     io.hass.description="Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards" \
     io.hass.type="addon" \
-    io.hass.version="1.1.2" \
+    io.hass.version="1.2.0" \
     maintainer="Miguel Matos <miguel.matos@multisynq.io>"
 
 # Add OCI labels for GitHub Container Registry
