@@ -9,14 +9,12 @@ _Run a Multisynq Synchronizer through your Home Assistant instance to participat
 
 ## About
 
-Multisynq Synchronizer is a DePIN (Decentralized Physical Infrastructure Networks) node that allows you to participate in distributed computing networks and earn rewards. This Home Assistant add-on makes it easy to run a Multisynq Synchronizer directly from your Home Assistant instance.
+Multisynq Synchronizer is a DePIN (Decentralized Physical Infrastructure Network) node that allows you to participate in the network and earn rewards. This Home Assistant add-on makes it easy to run a Multisynq Synchronizer directly from your Home Assistant instance.
 
 ### Features
 
 - Easy setup through Home Assistant UI
 - Automatic configuration management
-- Web interface for monitoring (port 3333)
-- Metrics endpoint for monitoring (port 9090)
 - Supports multiple architectures (amd64, aarch64)
 
 ## Installation
@@ -30,18 +28,8 @@ Multisynq Synchronizer is a DePIN (Decentralized Physical Infrastructure Network
 
 1. Configure your Synq Key and Wallet Address in the add-on configuration
 2. Start the add-on
-3. Access the web interface at `http://your-ha-ip:3333`
-4. Monitor metrics at `http://your-ha-ip:9090`
 
 ## Configuration
-
-Add-on configuration:
-
-```yaml
-synq_key: "your-synq-key-here"
-wallet_address: "your-wallet-address-here"  
-sync_name: "Home Assistant Synchronizer"
-```
 
 ### Option: `synq_key`
 
@@ -50,10 +38,6 @@ Your Synq API key for authentication with the Multisynq network.
 ### Option: `wallet_address`
 
 Your wallet address for receiving rewards.
-
-### Option: `sync_name`
-
-A custom name for your synchronizer node (optional).
 
 ## Support
 
