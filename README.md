@@ -7,7 +7,7 @@
 
 Multisynq is a decentralized physical infrastructure (DePIN) network that allows you to earn rewards by contributing your unused bandwidth.
 
-Visit [multisynq.io](https://multisynq.io) to learn more about the platform, get your API key, and join the network.
+Visit [multisynq.io](https://multisynq.io) to learn more about the platform, get your Synq key [startsynqing.com](https://startsynqing.com/), and join the network.
 
 ## Installation
 
@@ -58,10 +58,10 @@ Use the provided script to switch configurations:
 
 When developing locally, the addon will automatically build from your local `Dockerfile` without needing to fetch from the GitHub Container Registry.
 
-## Manual Testing
+## Manual Testing (Dev/Debug only)
 ```
 docker build -f Dockerfile.test -t multisynq-synchronizer:test-with-bashio .
-docker run --rm -e SYNQ_KEY="..." -e WALLET_ADDRESS="..." -e SYNC_NAME="..." multisynq-synchronizer:test-with-bashio
+docker run --rm -e SYNQ_KEY="..." -e WALLET_ADDRESS="..." multisynq-synchronizer:test-with-bashio
 ````
 
 ## Support
