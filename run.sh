@@ -2,6 +2,12 @@
 
 echo "=== Multisynq Synchronizer Starting ==="
 echo "$(date): Script started"
+echo "System: $(uname -a)"
+echo "Architecture: $(uname -m)"
+
+VERSION=$(grep -oP '"version":\s*"\K[^"]+' /app/package.json)
+echo "Home Assistant Addon Version: $VERSION"
+echo ""
 
 DEPIN_ENDPOINT="wss://api.multisynq.io/depin"
 
