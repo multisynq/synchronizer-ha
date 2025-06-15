@@ -18,9 +18,9 @@ schema:
   wallet_address: str
   lite_mode: bool
 ports:
-  "3333/tcp": 3333  # Synchronizer main port (required, don't change)
-  "9090/tcp": 9090  # Synchronizer metrics port (required, don't change) 
-  "8099/tcp": 8099  # Web dashboard/stats server (optional, change at will)
+  "3333/tcp": 3333
+  "9090/tcp": 9090
+  "8099/tcp": 8099
 ports_description:
   "3333/tcp": "Synchronizer main communication port (required, don't change)"
   "9090/tcp": "Synchronizer metrics/prometheus port (required, don't change)"

@@ -3,73 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multisynq Synchronizer</title>
+    <title>Multisynq Synchronizer Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">MS</div>
+    <div class="dashboard">
+        <header class="header">
             <h1>Multisynq Synchronizer</h1>
-            <p>DePIN Network Participant</p>
-        </div>
-        
-        <div id="status-card" class="status-card">
             <div class="status-indicator">
-                <div id="status-dot" class="status-dot"></div>
-                <div id="status-text" class="status-text">Loading...</div>
+                <span class="status-dot" id="connectionStatus"></span>
+                <span class="status-text" id="connectionText">Connecting...</span>
             </div>
-            
-            <div id="sync-info">
-                <div class="info-row">
-                    <span class="info-label">Synchronizer Name:</span>
-                    <span id="sync-name" class="info-value">-</span>
+        </header>
+
+        <div class="metrics-grid">
+            <!-- Synchronizer Info Card -->
+            <div class="metric-card primary">
+                <div class="metric-header">
+                    <h3>Synchronizer</h3>
+                    <div class="metric-icon">🔄</div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Wallet Address:</span>
-                    <span id="wallet-address" class="info-value">-</span>
+                <div class="metric-value" id="syncName">--</div>
+                <div class="metric-label">Name</div>
+            </div>
+
+            <!-- Wallet Address Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <h3>Wallet</h3>
+                    <div class="metric-icon">💳</div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Sessions:</span>
-                    <span id="sessions" class="info-value">-</span>
+                <div class="metric-value wallet" id="walletAddress">--</div>
+                <div class="metric-label">Address</div>
+            </div>
+
+            <!-- Active Sessions Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <h3>Sessions</h3>
+                    <div class="metric-icon">🔗</div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Users:</span>
-                    <span id="users" class="info-value">-</span>
+                <div class="metric-value" id="activeSessions">0</div>
+                <div class="metric-label">Active</div>
+            </div>
+
+            <!-- Connected Users Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <h3>Users</h3>
+                    <div class="metric-icon">👥</div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Life Points:</span>
-                    <span id="life-points" class="info-value">-</span>
+                <div class="metric-value" id="connectedUsers">0</div>
+                <div class="metric-label">Connected</div>
+            </div>
+
+            <!-- Points Earned Card -->
+            <div class="metric-card success">
+                <div class="metric-header">
+                    <h3>Points</h3>
+                    <div class="metric-icon">⭐</div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Total Traffic:</span>
-                    <span id="total-traffic" class="info-value">-</span>
+                <div class="metric-value" id="pointsEarned">0</div>
+                <div class="metric-label">Earned</div>
+            </div>
+
+            <!-- Traffic Stats Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <h3>Traffic</h3>
+                    <div class="metric-icon">📊</div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">QoS Score:</span>
-                    <span id="qos-score" class="info-value">-</span>
+                <div class="metric-content">
+                    <div class="traffic-stat">
+                        <span class="traffic-label">↑ Upload:</span>
+                        <span class="traffic-value" id="uploadTraffic">0 MB</span>
+                    </div>
+                    <div class="traffic-stat">
+                        <span class="traffic-label">↓ Download:</span>
+                        <span class="traffic-value" id="downloadTraffic">0 MB</span>
+                    </div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Connection:</span>
-                    <span id="connection-state" class="info-value">-</span>
+            </div>
+
+            <!-- Quality of Service Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <h3>Quality</h3>
+                    <div class="metric-icon">⚡</div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Uptime:</span>
-                    <span id="uptime" class="info-value">-</span>
+                <div class="metric-content">
+                    <div class="qos-metric">
+                        <span class="qos-label">Latency:</span>
+                        <span class="qos-value" id="latency">-- ms</span>
+                    </div>
+                    <div class="qos-metric">
+                        <span class="qos-label">Uptime:</span>
+                        <span class="qos-value" id="uptime">--</span>
+                    </div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Last Check:</span>
-                    <span id="last-check" class="info-value">-</span>
+            </div>
+
+            <!-- System Status Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <h3>System</h3>
+                    <div class="metric-icon">💻</div>
+                </div>
+                <div class="metric-content">
+                    <div class="system-stat">
+                        <span class="system-label">CPU:</span>
+                        <span class="system-value" id="cpuUsage">--%</span>
+                    </div>
+                    <div class="system-stat">
+                        <span class="system-label">Memory:</span>
+                        <span class="system-value" id="memoryUsage">--%</span>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <button id="refresh-btn" class="refresh-btn" onclick="refreshStatus()">
-            Refresh Status
-        </button>
-        
-        <div id="error-message" class="error-message" style="display: none;"></div>
+
+        <footer class="footer">
+            <div class="footer-info">
+                <span>Last updated: <span id="lastUpdate">--</span></span>
+                <span>Version: <span id="version">1.2.0</span></span>
+            </div>
+        </footer>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
