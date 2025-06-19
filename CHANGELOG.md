@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2025-06-19
+
+### Fixed
+- **Internal Logging**: Fixed logging issue by updating depin endpoint argument from URL to environment identifier (prod)
+
 ## [1.2.0] - 2025-06-15
 
 ### New Feature - Web Dashboard Panel

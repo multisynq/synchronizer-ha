@@ -1,6 +1,6 @@
 name: "Multisynq Synchronizer"
 description: "Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards"
-version: "1.2.0"
+version: "1.2.1"
 slug: "multisynq_synchronizer"
 init: false
 arch:

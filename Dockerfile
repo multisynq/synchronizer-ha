@@ -69,7 +69,7 @@ LABEL \
     io.hass.name="Multisynq Synchronizer" \
     io.hass.description="Run a Multisynq Synchronizer through your Home Assistant instance to participate in DePIN networks and earn rewards" \
     io.hass.type="addon" \
-    io.hass.version="1.2.0" \
+    io.hass.version="1.2.1" \
     maintainer="Miguel Matos <miguel.matos@multisynq.io>"
 
 # Add OCI labels for GitHub Container Registry
