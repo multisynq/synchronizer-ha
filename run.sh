@@ -1,7 +1,8 @@
 #!/bin/bash
 ADDON_VERSION="1.2.0"
 SYNQ_NAME_LENGTH=12
-DEPIN_ENDPOINT="wss://api.multisynq.io/depin"
+# DEPIN_ENDPOINT="wss://api.multisynq.io/depin"
+DEPIN_ENDPOINT="prod" #local, dev, prod
 
 echo "🚀 ————————————————————————————————————————————————————————— 🚀"
 echo "🚀 ———————————— Multisynq Synchronizer Starting ———————————— 🚀"
